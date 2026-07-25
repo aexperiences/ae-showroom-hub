@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Buyers & Leads</title>
+<link rel="icon" href="/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="/config.js"></script>
+<style>
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:Inter,system-ui,sans-serif;color:var(--ink,#1b1e23);background:var(--paper,#f4f4f2);min-height:100vh}
+  h1,h2,h3{font-family:Georgia,serif;font-weight:800;margin:0}
+  .wrap{max-width:1280px;margin:0 auto;padding:20px 20px 70px}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px}
+  .stat .n{font-family:Georgia,serif;font-weight:800;font-size:20px;color:#2f6a52}
+  .stat .l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+  .sp{flex:1}
+  .btn{background:linear-gradient(180deg,#2f6a52,#255740);color:#f2fbf6;border:none;border-radius:10px;padding:11px 17px;font-weight:700;font-family:Georgia,serif;font-size:14px;cursor:pointer}
+  .board{display:flex;gap:13px;overflow-x:auto;padding-bottom:12px}
+  .col{flex:0 0 244px;background:var(--cream);border:1px solid var(--line);border-radius:13px;padding:10px;display:flex;flex-direction:column;gap:9px;min-height:120px}
+  .col h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);display:flex;justify-content:space-between;align-items:baseline}
+  .col h3 .v{font-family:Inter;font-weight:600;font-size:11px;color:var(--mut)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(20,30,40,.05);transition:.12s}
+  .card:hover{transform:translateY(-1px);border-color:#2f6a52;box-shadow:0 8px 18px rgba(20,30,40,.1)}
+  .card .nm{font-weight:700;font-size:14px}
+  .card .it{font-size:11.5px;color:var(--ink2);margin-top:3px}
+  .card .rw{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+  .card .bud{font-family:Georgia,serif;font-weight:800;font-size:13px;color:#2f6a52}
+  .badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:99px;background:rgba(0,0,0,.06);color:var(--ink2)}
+  .empty{color:var(--mut);font-size:12px;padding:8px 2px}
+  .scrim{position:fixed;inset:0;background:rgba(15,20,25,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:18px}
+  .scrim.on{display:flex}
+  .modal{background:var(--card);border-radius:16px;max-width:500px;width:100%;max-height:88vh;overflow:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .modal h2{color:#2f6a52;font-size:20px;margin-bottom:12px}
+  .fld{margin-bottom:9px}.fld label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);font-weight:700;margin-bottom:4px}
+  .fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;background:var(--paper);color:var(--ink)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .mrow{display:flex;gap:9px;margin-top:14px}
+  .mini{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink2)}
+  .del{color:#b23b3b;border-color:#e6c0c0}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #2f6a52!important;outline-offset:2px}
+</style>
+</head>
+<body>
+<script src="/hub-nav.js" defer></script>
+<script src="/showdata.js"></script>
+<script src="/assistant.js" defer></script>
+<div class="wrap">
+  <div class="eyebrow">4barrel OS</div>
+  <h1>Buyers &amp; Leads</h1>
+  <div class="bar">
+    <div class="stat"><div class="n" id="pActive">—</div><div class="l">Active buyers</div></div>
+    <div class="stat"><div class="n" id="pDrive">—</div><div class="l">Test drives</div></div>
+    <div class="stat"><div class="n" id="pFin">—</div><div class="l">In financing</div></div>
+    <div class="sp"></div>
+    <button class="btn" onclick="openNew()">＋ New buyer</button>
+  </div>
+  <div class="board" id="board"></div>
+</div>
+
+<div class="scrim" id="scrim" onclick="if(event.target===this)close2()"><div class="modal">
+  <h2 id="mTitle">New buyer</h2>
+  <div class="fld"><label>Name</label><input id="f_name" placeholder="First & last"></div>
+  <div class="two"><div class="fld"><label>Phone</label><input id="f_phone"></div>
+    <div class="fld"><label>Email</label><input id="f_email"></div></div>
+  <div class="fld"><label>Interested in</label><input id="f_interest" placeholder="Stock # or vehicle type"></div>
+  <div class="two"><div class="fld"><label>Stage</label><select id="f_stage"></select></div>
+    <div class="fld"><label>Budget ($)</label><input id="f_budget" type="number"></div></div>
+  <div class="fld"><label>Source</label><input id="f_source" placeholder="Website, referral, walk-in…"></div>
+  <div class="fld"><label>Notes</label><textarea id="f_notes" style="min-height:56px"></textarea></div>
+  <div class="mrow"><button class="btn" style="flex:1" onclick="saveIt()">Save</button><button class="mini del" id="delBtn" onclick="delIt()">Delete</button><button class="mini" onclick="close2()">Cancel</button></div>
+</div></div>
+
+<script>
+(function(){
+  var el=function(id){return document.getElementById(id);};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var money=function(n){n=+n||0;return n?'$'+Math.round(n).toLocaleString():'';};
+  var STAGES=window.SR.STAGES, BUYERS=[], CUR=null;
+  el('f_stage').innerHTML=STAGES.map(function(s){return '<option>'+s+'</option>';}).join('');
+
+  function load(){ window.SR.list('buyers').then(function(a){ BUYERS=a||[]; render(); }); }
+  function render(){
+    var open=BUYERS.filter(function(b){return b.stage!=='Sold';});
+    el('pActive').textContent=open.length;
+    el('pDrive').textContent=BUYERS.filter(function(b){return b.stage==='Test Drive';}).length;
+    el('pFin').textContent=BUYERS.filter(function(b){return b.stage==='Financing';}).length;
+    el('board').innerHTML=STAGES.map(function(st){
+      var items=BUYERS.filter(function(b){return (b.stage||'Lead')===st;});
+      return '<div class="col"><h3>'+st+' <span class="v">'+items.length+'</span></h3>'+
+        (items.length?items.map(card).join(''):'<div class="empty">—</div>')+'</div>';
+    }).join('');
+    el('board').querySelectorAll('[data-id]').forEach(function(c){c.addEventListener('click',function(){openEdit(c.getAttribute('data-id'));});});
+  }
+  function card(b){
+    return '<div class="card" data-id="'+esc(b.id)+'"><div class="nm">'+esc(b.name||'—')+'</div>'+
+      (b.interest?'<div class="it">🚗 '+esc(b.interest)+'</div>':'')+
+      '<div class="rw"><span class="bud">'+money(b.budget)+'</span>'+(b.source?'<span class="badge">'+esc(b.source)+'</span>':'')+'</div>'+
+      (b.phone?'<div class="it" style="margin-top:5px">📞 '+esc(b.phone)+'</div>':'')+'</div>';
+  }
+  var F=['name','phone','email','interest','stage','budget','source','notes'];
+  function openNew(){ CUR=null; el('mTitle').textContent='New buyer'; F.forEach(function(k){el('f_'+k).value=k==='stage'?STAGES[0]:'';}); el('delBtn').style.display='none'; el('scrim').classList.add('on'); el('f_name').focus(); }
+  function openEdit(id){ CUR=BUYERS.find(function(x){return x.id===id;}); if(!CUR)return; el('mTitle').textContent='Edit buyer'; F.forEach(function(k){el('f_'+k).value=CUR[k]==null?'':CUR[k];}); el('delBtn').style.display=''; el('scrim').classList.add('on'); }
+  function saveIt(){ var rec=CUR?Object.assign({},CUR):{}; F.forEach(function(k){var v=el('f_'+k).value; if(k==='budget')v=v===''?'':+v; rec[k]=v;}); window.SR.save('buyers',rec).then(function(){close2();load();}); }
+  function delIt(){ if(!CUR||!confirm('Delete this buyer?'))return; window.SR.del('buyers',CUR.id).then(function(){close2();load();}); }
+  function close2(){ el('scrim').classList.remove('on'); }
+  window.openNew=openNew;window.saveIt=saveIt;window.delIt=delIt;window.close2=close2;
+
+  window.AssistantContext=function(){ return { view:'buyers pipeline', counts:STAGES.map(function(s){return s+': '+BUYERS.filter(function(b){return b.stage===s;}).length;}).join(', '), buyers:BUYERS.slice(0,24).map(function(b){return {name:b.name,interest:b.interest,stage:b.stage,budget:b.budget,source:b.source,notes:b.notes};}) }; };
+  load();
+})();
+</script>
+</body>
+</html>
