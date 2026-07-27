@@ -191,7 +191,7 @@
     multilot: { key:"multilot", name:"Multi-lot", rank:3, mo:2000, build:15000, desc:"Multiple lots, nothing held back. Every department, the full agent org, and counsel.", base:"Multi-lot · unlimited units · dedicated environment", includes:["inventory","recon","floorplan","deals","fni","leads","online","titles","books","marketing","it","law","org"] }
   };
   var DEPTS = [
-    { group:"Command", items:[ { href:"dashboard.html", label:"Command Center", ic:"◎" }, { href:"approvals.html", label:"Approval Desk", ic:"✓", accent:"ops" } ]},
+    { group:"Command", items:[ { href:"dashboard.html", label:"Command Center", ic:"◎" }, { href:"calendar.html", label:"Calendar", ic:"▤" }, { href:"approvals.html", label:"Approval Desk", ic:"✓", accent:"ops" } ]},
     { group:"The Lot", items:[ { href:"inventory.html", label:"Lot & Inventory", ic:"▦", room:"inventory", accent:"lot" }, { href:"recon.html", label:"Reconditioning", ic:"⛭", room:"recon", accent:"recon" }, { href:"floorplan.html", label:"Floor Plan & Carry", ic:"◷", room:"floorplan", accent:"floor" } ]},
     { group:"The Desk", items:[ { href:"deals.html", label:"Desk & Deals", ic:"◆", room:"deals", accent:"desk" }, { href:"fni.html", label:"Finance & Products", ic:"❖", room:"fni", accent:"fni" }, { href:"leads.html", label:"Leads & Ups", ic:"☎", room:"leads", accent:"leads" }, { href:"online.html", label:"Online Sales", ic:"◈", room:"online", accent:"online" } ]},
     { group:"The Paperwork", items:[ { href:"titles.html", label:"Titles & Compliance", ic:"⎙", room:"titles", accent:"title" }, { href:"books.html", label:"Books & Margins", ic:"◭", room:"books", accent:"books" } ]},
