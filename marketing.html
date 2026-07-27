@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merchandising · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"marketing.html", crumb:"Merchandising" }), d = F.db();
+  c.appendChild(F.page("Merchandising & Syndication","Photos, descriptions, and one push to Cars.com, Facebook Marketplace and your own site. An independent lot lives or dies on its listings — and a stale listing on an aging unit reads as a problem car."));
+
+  var listed = d.units.filter(function(u){return u.listed;});
+  var notListed = d.units.filter(function(u){return !u.listed;});
+  c.appendChild(F.card('<h2>On the line</h2><div class="card-sub">Live across all three channels.</div>'+
+    '<div class="statrow">'+
+      F.stat("Listed", listed.length, "syndicated", "mag")+
+      F.stat("Held from the line", notListed.length, "in recon", notListed.length?"watch":"good")+
+      F.stat("Channels", 3, "Cars.com · Facebook · site")+
+    '</div>'));
+
+  c.appendChild(F.card('<h2>Listing health</h2><div class="card-sub">Fresh movers first; refresh the aged listings with a price note so they don\'t look stale.</div>'+
+    '<table><thead><tr><th>Unit</th><th style="text-align:right">Price</th><th>Days</th><th>Listing</th></tr></thead><tbody>'+
+    listed.map(function(u){ var stale=u.daysOnLot>=35;
+      return '<tr><td class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(u.price)+'</td>'+
+      '<td>'+F.tag(u.daysOnLot+"d", stale?"crim":"ghost")+'</td>'+
+      '<td>'+(stale?'<span class="chip hold">refresh · add price note</span>':'<span class="chip clear">fresh</span>')+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>Get the movers up first.</b> The RAV4 and the Elantra are your fastest sellers — photographed and pushed to all three channels, they pull calls into the up log. The showroom doesn\'t fabricate a cost-per-lead; you\'d wire your real channel numbers.</div>'));
+})();
+</script></body></html>

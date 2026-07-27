@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IT · System Health · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"it.html", crumb:"IT · System Health" }), d = F.db();
+  c.appendChild(F.page("IT · System Health","CLEAR / WATCH / INTERVENE across the things a lot can\'t run without — the listings sync, online deposits, the lot record, and backups. If your cars vanish from Cars.com because a sync dropped, that\'s lost calls, so it pages a person."));
+
+  function badge(st){ return st==="CLEAR"?'<span class="chip clear">CLEAR</span>':(st==="WATCH"?'<span class="chip gold">WATCH</span>':'<span class="chip hold">INTERVENE</span>'); }
+  var watch = d.systems.filter(function(s){return s.state!=="CLEAR";});
+  c.appendChild(F.card('<div class="between"><div><h2>Services</h2><div class="card-sub">Live health, newest flag surfaced.</div></div><div>'+F.tag(watch.length+" on watch", watch.length?"watch":"good")+'</div></div>'+
+    '<table><thead><tr><th>Service</th><th style="width:130px">State</th><th>Signal</th></tr></thead><tbody>'+
+    d.systems.map(function(s){return '<tr><td class="t-main">'+F.esc(s.name)+'</td><td>'+badge(s.state)+'</td><td class="muted small">'+F.esc(s.metric)+'</td></tr>';}).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>The title vault is on WATCH.</b> The Altima\'s auction title is in transit and the Escape\'s trade lien payoff is pending — both flow into the paperwork gate, so IT keeps them flagged until they clear. Nothing needs INTERVENE.</div>'));
+})();
+</script></body></html>

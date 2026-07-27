@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Books & Margins · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"books.html", crumb:"Books & Margins" }), d = F.db();
+  c.appendChild(F.page("Books & Margins","The month, computed — not reconstructed at year-end. Store gross, PVR, days-to-turn and the money tied up on the lot. PVR is here as a metric; on a small lot it isn\'t the headline — the carry is."));
+
+  c.appendChild(F.card('<h2>The store, by the numbers</h2><div class="card-sub">Delivered deals and the lot together.</div>'+
+    '<div class="statrow">'+
+      F.stat("Store gross", F.money(F.storeGross(d)), F.deliveredDeals(d).length+" delivered deals", "mag")+
+      F.stat("Avg PVR", F.money(F.avgPVR(d)), "front + back per copy")+
+      F.stat("Money tied up", F.money(F.moneyTiedUp(d)), F.unsold(d).length+" units on the lot", "watch")+
+      F.stat("Carry / month", F.money(F.carryPerMonth(d)), "floor plan at this pace", "watch")+
+    '</div>'+F.srcNote(F.BENCH.pvr.src)));
+
+  c.appendChild(F.card('<h2>Delivered deals — the gross</h2><div class="card-sub">Front minus the true all-in, plus back gross. The store\'s real month.</div>'+
+    '<table><thead><tr><th>Deal</th><th style="text-align:right">Sale</th><th style="text-align:right">All-in</th><th style="text-align:right">Front</th><th style="text-align:right">Back</th><th style="text-align:right">Total</th></tr></thead><tbody>'+
+    F.deliveredDeals(d).map(function(x){ return '<tr><td class="t-main">'+F.esc(x.vehicle)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(x.salePrice)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(x.allIn)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(F.dealFront(x))+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(F.dealBack(x))+'</td>'+
+      '<td style="text-align:right" class="mono"><b>'+F.money(F.dealTotal(x))+'</b></td></tr>'; }).join("")+
+    '<tr class="grandrow"><td><b>Store gross</b></td><td></td><td></td><td></td><td></td><td style="text-align:right" class="mono"><b>'+F.money(F.storeGross(d))+'</b></td></tr>'+
+    '</tbody></table>'));
+
+  c.appendChild(F.card('<h2>Days-to-turn</h2><div class="card-sub">How long units sit before they sell. The aged ones drag the average and cost carry every day.</div>'+
+    '<table><thead><tr><th>Unit</th><th>Days on lot</th><th style="text-align:right">Carry to date</th></tr></thead><tbody>'+
+    F.unsold(d).slice().sort(function(a,b){return b.daysOnLot-a.daysOnLot;}).map(function(u){ return '<tr><td class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</td><td>'+F.tag(u.daysOnLot+"d", u.daysOnLot>=35?"crim":"ghost")+'</td><td style="text-align:right" class="mono">'+F.money(F.carry(u))+'</td></tr>'; }).join("")+'</tbody></table>'+F.srcNote(F.BENCH.daysToTurn.src)));
+})();
+</script></body></html>

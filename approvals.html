@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Approval Desk · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"approvals.html", crumb:"Approval Desk" });
+  c.appendChild(F.page("Approval Desk","Ghost Mode's gate. The org clears what it can honestly clear; only true fences reach this desk — listing a unit, delivering a car, spending, or moving a price. Approving here does NOT list, deliver, pay or sign anything. This is a showroom.",
+    '<button class="btn ghost sm" onclick="location.reload()">Refresh</button>'));
+  function render() {
+    var host = document.getElementById("deskbox");
+    var items = F.approvals().filter(function(a){return a.state==="Pending";});
+    if (!items.length) { host.innerHTML = '<div class="empty">The desk is clear. The org has cleared everything it can honestly clear itself — the north star is an empty desk.</div>'; return; }
+    host.innerHTML = items.map(function (a) {
+      var badge = a.kind==="deliver"?"crim":(a.kind==="list"?"crim":(a.kind==="pricing"?"watch":"ghost"));
+      return '<div class="card" style="margin-bottom:12px"><div class="between"><div><h2>'+F.esc(a.title)+'</h2><div class="card-sub">'+F.esc(a.summary)+'</div></div><div>'+F.tag(a.kind,badge)+'</div></div>'+
+        '<div class="fence'+(a.kind==="deliver"||a.kind==="list"?" crim":"")+'"><b>Why it\'s here:</b> '+F.esc(a.why)+' <span class="muted small">— staged by '+F.esc(a.by)+'</span></div>'+
+        '<div class="row" style="margin-top:11px"><button class="btn gold sm" data-ok="'+a.id+'">Approve (files it — does nothing)</button><button class="btn ghost sm" data-hold="'+a.id+'">Hold</button></div></div>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ok]"), function (b){ b.addEventListener("click", function (){ F.decideApproval(b.dataset.ok,"Approved"); F.toast("Approved and filed — nothing was listed, delivered, paid or signed.","ok"); render(); }); });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-hold]"), function (b){ b.addEventListener("click", function (){ F.decideApproval(b.dataset.hold,"Held"); F.toast("Held. Left on the desk for you.","ok"); render(); }); });
+  }
+  c.appendChild(F.card('<div id="deskbox"></div>'));
+  render();
+})();
+</script></body></html>

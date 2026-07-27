@@ -1,140 +1,32 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Inventory</title>
-<link rel="icon" href="/logo.svg">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="/config.js"></script>
-<style>
-  *{box-sizing:border-box}html,body{margin:0}
-  body{font-family:Inter,system-ui,sans-serif;color:var(--ink,#1b1e23);background:var(--paper,#f4f4f2);min-height:100vh}
-  h1,h2,h3{font-family:Georgia,serif;font-weight:800;margin:0}
-  .wrap{max-width:1280px;margin:0 auto;padding:20px 20px 70px}
-  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
-  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 14px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px}
-  .stat .n{font-family:Georgia,serif;font-weight:800;font-size:20px;color:var(--accent)}
-  .stat .l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
-  .sp{flex:1}
-  .btn{background:linear-gradient(180deg,var(--accent),var(--accent2));color:var(--onAccent);border:none;border-radius:10px;padding:11px 17px;font-weight:700;font-family:Georgia,serif;font-size:14px;cursor:pointer}
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 16px}
-  .chip{border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:99px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer}
-  .chip.on{background:var(--accent);color:var(--onAccent);border-color:var(--accent)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px}
-  .car{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 12px rgba(20,30,40,.05);transition:.13s}
-  .car:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 12px 24px rgba(20,30,40,.11)}
-  .car .ph{height:96px;background:linear-gradient(135deg,var(--cream),#dfe7ea);display:flex;align-items:center;justify-content:center;font-size:40px;position:relative}
-  .car .st{position:absolute;top:9px;right:9px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:99px;color:#fff}
-  .st.Available{background:#2f6a52}.st.Reconditioning{background:#9a6a2f}.st.Pending{background:#2b6d86}.st.Sold{background:#767d87}
-  .car .bd{padding:12px 13px}
-  .car .ttl{font-weight:700;font-size:15px;line-height:1.2}
-  .car .sub{font-size:11.5px;color:var(--mut);margin-top:2px}
-  .car .pr{font-family:Georgia,serif;font-weight:800;font-size:19px;color:var(--accent);margin:7px 0 2px}
-  .car .meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink2);margin-top:4px}
-  .car .age{margin-top:7px;font-size:11px;font-weight:700}.age.hot{color:#b23b3b}.age.ok{color:var(--mut)}
-  .scrim{position:fixed;inset:0;background:rgba(15,20,25,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:18px}
-  .scrim.on{display:flex}
-  .modal{background:var(--card);border-radius:16px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
-  .modal h2{color:var(--accent);font-size:20px;margin-bottom:12px}
-  .fld{margin-bottom:9px}.fld label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);font-weight:700;margin-bottom:4px}
-  .fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;background:var(--paper);color:var(--ink)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
-  .mrow{display:flex;gap:9px;margin-top:14px}
-  .mini{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink2)}
-  .del{color:#b23b3b;border-color:#e6c0c0}
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent)!important;outline-offset:2px}
-</style>
-</head>
-<body>
-<script src="/hub-nav.js" defer></script>
-<script src="/showdata.js"></script>
-<script src="/assistant.js" defer></script>
-<div class="wrap">
-  <div class="eyebrow">4barrel OS</div>
-  <h1>Inventory</h1>
-  <div class="bar">
-    <div class="stat"><div class="n" id="sVal">—</div><div class="l">Inventory value</div></div>
-    <div class="stat"><div class="n" id="sAvail">—</div><div class="l">Available</div></div>
-    <div class="stat"><div class="n" id="sRecon">—</div><div class="l">In recon</div></div>
-    <div class="stat"><div class="n" id="sAge">—</div><div class="l">Avg days on lot</div></div>
-    <div class="sp"></div>
-    <button class="btn" onclick="openNew()">＋ Add vehicle</button>
-  </div>
-  <div class="filters" id="filters"></div>
-  <div class="grid" id="grid"></div>
-</div>
-
-<div class="scrim" id="scrim" onclick="if(event.target===this)close2()"><div class="modal">
-  <h2 id="mTitle">Add vehicle</h2>
-  <div class="three"><div class="fld"><label>Year</label><input id="f_year" type="number" placeholder="2021"></div>
-    <div class="fld"><label>Make</label><input id="f_make" placeholder="Porsche"></div>
-    <div class="fld"><label>Model</label><input id="f_model" placeholder="Macan"></div></div>
-  <div class="two"><div class="fld"><label>Trim</label><input id="f_trim" placeholder="S"></div>
-    <div class="fld"><label>Body</label><input id="f_body" placeholder="SUV"></div></div>
-  <div class="two"><div class="fld"><label>Color</label><input id="f_color" placeholder="Carrara White"></div>
-    <div class="fld"><label>Mileage</label><input id="f_mileage" type="number" placeholder="28400"></div></div>
-  <div class="three"><div class="fld"><label>Price ($)</label><input id="f_price" type="number"></div>
-    <div class="fld"><label>Cost ($)</label><input id="f_cost" type="number"></div>
-    <div class="fld"><label>Recon ($)</label><input id="f_reconCost" type="number"></div></div>
-  <div class="three"><div class="fld"><label>Status</label><select id="f_status"></select></div>
-    <div class="fld"><label>Stock #</label><input id="f_stock" placeholder="S1042"></div>
-    <div class="fld"><label>Days on lot</label><input id="f_daysOnLot" type="number"></div></div>
-  <div class="two"><div class="fld"><label>Acquired</label><input id="f_acquired" placeholder="Trade-in"></div>
-    <div class="fld"><label>VIN (last 6)</label><input id="f_vin" placeholder="…KLB417"></div></div>
-  <div class="fld"><label>Notes</label><textarea id="f_notes" style="min-height:52px"></textarea></div>
-  <div class="mrow"><button class="btn" style="flex:1" onclick="saveIt()">Save</button><button class="mini del" id="delBtn" onclick="delIt()">Delete</button><button class="mini" onclick="close2()">Cancel</button></div>
-</div></div>
-
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lot & Inventory · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
 <script>
-(function(){
-  var el=function(id){return document.getElementById(id);};
-  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-  var money=function(n){n=+n||0;return '$'+Math.round(n).toLocaleString();};
-  var VSTATUS=window.SR.VSTATUS, CARS=[], CUR=null, FILTER='All';
-  el('f_status').innerHTML=VSTATUS.map(function(s){return '<option>'+s+'</option>';}).join('');
-  el('filters').innerHTML=['All'].concat(VSTATUS).map(function(s){return '<span class="chip'+(s==='All'?' on':'')+'" data-f="'+s+'">'+s+'</span>';}).join('');
-  el('filters').querySelectorAll('[data-f]').forEach(function(c){c.addEventListener('click',function(){FILTER=c.getAttribute('data-f');el('filters').querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x===c);});render();});});
-  var ICON={SUV:'🚙',Truck:'🛻',Sedan:'🚗',Coupe:'🏎️',Wagon:'🚐'};
+(function () {
+  var F = window.FB, c = F.mount({ active:"inventory.html", crumb:"Lot & Inventory" }), d = F.db();
+  c.appendChild(F.page("Lot & Inventory","Every unit with its running ALL-IN cost — not a static \"cost\" number, but auction hammer + fees + transport + recon + the floor-plan carry that grows every day it sits. This is what a franchise DMS never shows a small lot."));
 
-  function load(){ window.SR.list('vehicles').then(function(a){ CARS=a||[]; render(); }); }
-  function render(){
-    var live=CARS.filter(function(v){return v.status!=='Sold';});
-    el('sVal').textContent=money(live.reduce(function(s,v){return s+(+v.price||0);},0));
-    el('sAvail').textContent=CARS.filter(function(v){return v.status==='Available';}).length;
-    el('sRecon').textContent=CARS.filter(function(v){return v.status==='Reconditioning';}).length;
-    var ages=live.map(function(v){return +v.daysOnLot||0;}); el('sAge').textContent=ages.length?Math.round(ages.reduce(function(a,b){return a+b;},0)/ages.length)+'d':'—';
-    var show=CARS.filter(function(v){return FILTER==='All'?true:v.status===FILTER;});
-    show.sort(function(a,b){return (+b.daysOnLot||0)-(+a.daysOnLot||0);});
-    el('grid').innerHTML=show.length?show.map(card).join(''):'<div style="color:var(--mut);font-size:13px">No vehicles in this view.</div>';
-    el('grid').querySelectorAll('[data-id]').forEach(function(c){c.addEventListener('click',function(){openEdit(c.getAttribute('data-id'));});});
-  }
-  function card(v){
-    var age=+v.daysOnLot||0, hot=age>30 && v.status==='Available';
-    return '<div class="car" data-id="'+esc(v.id)+'"><div class="ph">'+(ICON[v.body]||'🚗')+'<span class="st '+esc(v.status||'Available')+'">'+esc(v.status||'')+'</span></div>'+
-      '<div class="bd"><div class="ttl">'+esc(v.year||'')+' '+esc(v.make||'')+' '+esc(v.model||'')+'</div>'+
-      '<div class="sub">'+esc([v.trim,v.color].filter(Boolean).join(' · '))+'</div>'+
-      '<div class="pr">'+money(v.price)+'</div>'+
-      '<div class="meta"><span>'+(v.mileage?(+v.mileage).toLocaleString()+' mi':'—')+'</span><span>#'+esc(v.stock||'')+'</span></div>'+
-      '<div class="age '+(hot?'hot':'ok')+'">'+(hot?'⏳ '+age+' days — aging':'📅 '+age+' days on lot')+'</div></div></div>';
-  }
-  var F=['year','make','model','trim','body','color','mileage','price','cost','reconCost','status','stock','daysOnLot','acquired','vin','notes'];
-  var NUM={year:1,mileage:1,price:1,cost:1,reconCost:1,daysOnLot:1};
-  function openNew(){ CUR=null; el('mTitle').textContent='Add vehicle'; F.forEach(function(k){el('f_'+k).value=k==='status'?'Available':'';}); el('delBtn').style.display='none'; el('scrim').classList.add('on'); el('f_year').focus(); }
-  function openEdit(id){ CUR=CARS.find(function(x){return x.id===id;}); if(!CUR)return; el('mTitle').textContent=esc((CUR.year||'')+' '+(CUR.make||'')+' '+(CUR.model||'')); F.forEach(function(k){el('f_'+k).value=CUR[k]==null?'':CUR[k];}); el('delBtn').style.display=''; el('scrim').classList.add('on'); }
-  function saveIt(){ var rec=CUR?Object.assign({},CUR):{}; F.forEach(function(k){var v=el('f_'+k).value; if(NUM[k])v=v===''?'':+v; rec[k]=v;}); window.SR.save('vehicles',rec).then(function(){close2();load();}); }
-  function delIt(){ if(!CUR||!confirm('Remove this vehicle?'))return; window.SR.del('vehicles',CUR.id).then(function(){close2();load();}); }
-  function close2(){ el('scrim').classList.remove('on'); }
-  window.openNew=openNew;window.saveIt=saveIt;window.delIt=delIt;window.close2=close2;
+  var un = F.unsold(d);
+  c.appendChild(F.card('<h2>The lot</h2><div class="card-sub">'+un.length+' units in stock. Aging and title-in-transit flagged.</div>'+
+    '<table><thead><tr><th>Unit</th><th>Miles</th><th style="text-align:right">Price</th><th style="text-align:right">All-in</th><th style="text-align:right">Front</th><th>Recon</th><th>Days</th><th>Title</th></tr></thead><tbody>'+
+    un.map(function(u){ var fp=F.frontPotential(u), old=(u.daysOnLot>=35), listBlk=(u.wantList&&!F.canList(u));
+      return '<tr><td><div class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model+" "+u.trim)+'</div><div class="t-sub">'+F.esc(u.stock+" · "+u.color+" · "+u.src)+'</div></td>'+
+      '<td class="mono small">'+u.mileage.toLocaleString()+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(u.price)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(F.allInCost(u))+'</td>'+
+      '<td style="text-align:right" class="mono"><b style="color:'+(fp>1500?'var(--good)':'var(--watch)')+'">'+F.money(fp)+'</b></td>'+
+      '<td>'+(u.recon==="Ready"?'<span class="chip clear">Ready</span>':'<span class="chip hold">'+F.esc(u.recon)+'</span>')+(listBlk?' <span class="tag crim">held</span>':'')+'</td>'+
+      '<td>'+F.tag(u.daysOnLot+"d", old?"crim":"ghost")+'</td>'+
+      '<td>'+(u.titleInHand?'<span class="chip clear">in hand</span>':'<span class="chip hold">in transit</span>')+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>All-in is the truth.</b> The Outback shows a $1,600 front at the asking price — but 48 days of carry already came out of it. That\'s why days-on-lot is a bill, not a stat. <a href="floorplan.html">See the carry →</a></div>'));
 
-  window.AssistantContext=function(){ return { view:'inventory', total:CARS.length,
-    byStatus:VSTATUS.map(function(s){return s+': '+CARS.filter(function(v){return v.status===s;}).length;}).join(', '),
-    aging:CARS.filter(function(v){return (+v.daysOnLot||0)>30 && v.status==='Available';}).map(function(v){return v.year+' '+v.make+' '+v.model+' ('+v.daysOnLot+'d, '+money(v.price)+')';}),
-    vehicles:CARS.slice(0,24).map(function(v){return {stock:v.stock,ymm:v.year+' '+v.make+' '+v.model+' '+(v.trim||''),price:v.price,cost:v.cost,mileage:v.mileage,status:v.status,daysOnLot:v.daysOnLot,color:v.color,notes:v.notes};}) }; };
-  load();
+  /* what it replaces */
+  c.appendChild(F.card('<h2>What this replaces</h2><div class="card-sub">The stack a small lot cobbles together — folded into one unit record.</div>'+
+    '<table><thead><tr><th>Today</th><th>The job</th><th>What it costs you</th></tr></thead><tbody>'+
+    F.REPLACES.map(function(r){return '<tr><td class="t-main">'+F.esc(r.tool)+'</td><td>'+F.esc(r.job)+'</td><td class="muted small">'+F.esc(r.cost)+'</td></tr>';}).join("")+'</tbody></table>'));
 })();
-</script>
-</body>
-</html>
+</script></body></html>

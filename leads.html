@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leads & Ups · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"leads.html", crumb:"Leads & Ups" }), d = F.db();
+  c.appendChild(F.page("Leads & Ups","Every up logged with its source — no BDC, no per-rep assignment, no lost follow-up. On a small lot there\'s one up log and the owner works it. What matters is knowing which channel actually drives the calls."));
+
+  var open = d.leads.filter(function(l){return l.stage!=="Sold"&&l.stage!=="Lost";});
+  /* source tally */
+  var bySrc = {}; d.leads.forEach(function(l){ bySrc[l.source]=(bySrc[l.source]||0)+1; });
+  c.appendChild(F.card('<h2>Where the traffic comes from</h2><div class="card-sub">Source attribution across every up — so the listing spend goes where the calls are.</div>'+
+    '<div class="statrow">'+Object.keys(bySrc).map(function(s){ return F.stat(s, bySrc[s], "up"+(bySrc[s]>1?"s":"")); }).join("")+'</div>'));
+
+  c.appendChild(F.card('<div class="between"><div><h2>The up log</h2><div class="card-sub">Open ups first. The RAV4 appointment is the one to work — anchor unit, buyer booked.</div></div><div>'+F.tag(open.length+" open","mag")+'</div></div>'+
+    '<table><thead><tr><th>Up</th><th>Source</th><th>Interest</th><th>Stage</th><th>Next</th></tr></thead><tbody>'+
+    d.leads.map(function(l){ var st=l.stage==="Appointment"?"good":(l.stage==="Lost"?"crim":(l.stage==="Working"?"watch":"ghost"));
+      return '<tr><td class="t-main">'+F.esc(l.who)+'</td><td>'+F.esc(l.source)+'</td><td>'+F.esc(l.interest)+'</td><td>'+F.tag(l.stage,st)+'</td><td class="muted small">'+F.esc(l.note)+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>No lead falls through.</b> The Grand Cherokee up is waiting on recon to list the unit — the org holds the follow-up until it\'s on the line, then reminds you. That\'s the difference between a CRM and a folder of sticky notes.</div>'));
+})();
+</script></body></html>

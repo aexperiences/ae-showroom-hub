@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Law · Counsel · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"law.html", crumb:"Law · Counsel" }), d = F.db();
+  c.appendChild(F.page("Law · Counsel","Dealer compliance — the FTC Buyers Guide, odometer disclosure, title in hand, doc fee and advertising. On a small lot the compliance is the owner\'s own exposure, and it\'s the thing most likely to actually cost him money this year. This department is advisory only; anything with real risk holds under an 85% bar and routes to a real attorney.",
+    '<span class="tag watch">advisory · bar 85%</span>'));
+
+  c.appendChild(F.card('<div class="fence crim"><b>Not a lawyer.</b> 4barrel OS names the federal and state paperwork a used-car lot owes and flags exposure. It does not practice law, and nothing here is legal advice. Doc-fee caps, advertising rules and BHPH/repossession specifics are unresearched here on purpose — they belong with counsel, not memory. The high confidence bar exists so the OS escalates rather than bluffs.</div>'));
+
+  var open = d.matters.filter(function(m){return m.state==="Open";});
+  c.appendChild(F.card('<div class="between"><div><h2>Open matters</h2><div class="card-sub">Ranked by risk. High-risk items route to a real attorney before anything moves.</div></div><div>'+F.tag(open.length+" open", open.length?"watch":"good")+'</div></div>'+
+    '<table><thead><tr><th>Matter</th><th style="width:110px">Risk</th><th>Reference</th></tr></thead><tbody>'+
+    d.matters.map(function(m){ var rk=m.risk==="High"?"crim":(m.risk==="Medium"?"watch":"ghost");
+      return '<tr><td><div class="t-main">'+F.esc(m.title)+'</div><div class="t-sub">'+F.esc(m.note)+'</div></td><td>'+F.tag(m.risk,rk)+'</td><td class="muted small">'+F.esc(m.ref)+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>The two that gate a delivery:</b> a Buyers Guide posted on every listed unit (16 CFR 455), and title in hand before you deliver. The Escape can\'t go out until the trade lien clears — Law holds it and routes it up. <a href="titles.html">See the Deal Jacket →</a></div>'));
+})();
+</script></body></html>

@@ -1,132 +1,33 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Reconditioning</title>
-<link rel="icon" href="/logo.svg">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="/config.js"></script>
-<style>
-  *{box-sizing:border-box}html,body{margin:0}
-  body{font-family:Inter,system-ui,sans-serif;color:var(--ink,#1b1e23);background:var(--paper,#f4f4f2);min-height:100vh}
-  h1,h2,h3{font-family:Georgia,serif;font-weight:800;margin:0}
-  .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 70px}
-  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
-  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px}
-  .stat .n{font-family:Georgia,serif;font-weight:800;font-size:20px;color:#9a6a2f}
-  .stat .l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
-  .sp{flex:1}
-  .btn{background:linear-gradient(180deg,#9a6a2f,#7d5423);color:#fdf7ee;border:none;border-radius:10px;padding:11px 17px;font-weight:700;font-family:Georgia,serif;font-size:14px;cursor:pointer}
-  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
-  @media(max-width:820px){.board{grid-template-columns:1fr}}
-  .col{background:var(--cream);border:1px solid var(--line);border-radius:13px;padding:10px;display:flex;flex-direction:column;gap:9px;min-height:120px}
-  .col h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);display:flex;justify-content:space-between;align-items:baseline}
-  .col h3 .v{font-family:Inter;font-weight:600;font-size:11px;color:var(--mut)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(20,30,40,.05);transition:.12s}
-  .card:hover{transform:translateY(-1px);border-color:#9a6a2f;box-shadow:0 8px 18px rgba(20,30,40,.1)}
-  .card .t{font-weight:700;font-size:14px}
-  .card .s{font-size:11.5px;color:var(--mut);margin-top:2px}
-  .prog{height:6px;background:var(--line2);border-radius:99px;margin:8px 0 5px;overflow:hidden}
-  .prog i{display:block;height:100%;background:#9a6a2f}
-  .card .rw{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink2)}
-  .cost{font-family:Georgia,serif;font-weight:800;color:#9a6a2f}
-  .empty{color:var(--mut);font-size:12px;padding:8px 2px}
-  .scrim{position:fixed;inset:0;background:rgba(15,20,25,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:18px}
-  .scrim.on{display:flex}
-  .modal{background:var(--card);border-radius:16px;max-width:500px;width:100%;max-height:88vh;overflow:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
-  .modal h2{color:#9a6a2f;font-size:20px;margin-bottom:12px}
-  .fld{margin-bottom:9px}.fld label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);font-weight:700;margin-bottom:4px}
-  .fld input,.fld select,.fld textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;background:var(--paper);color:var(--ink)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .checks{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
-  .checks label{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink2);text-transform:none;letter-spacing:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}
-  .checks input{width:auto;margin:0}
-  .mrow{display:flex;gap:9px;margin-top:14px}
-  .mini{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink2)}
-  .del{color:#b23b3b;border-color:#e6c0c0}
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #9a6a2f!important;outline-offset:2px}
-</style>
-</head>
-<body>
-<script src="/hub-nav.js" defer></script>
-<script src="/showdata.js"></script>
-<script src="/assistant.js" defer></script>
-<div class="wrap">
-  <div class="eyebrow">4barrel OS</div>
-  <h1>Reconditioning</h1>
-  <div class="bar">
-    <div class="stat"><div class="n" id="rShop">—</div><div class="l">In shop</div></div>
-    <div class="stat"><div class="n" id="rParts">—</div><div class="l">Waiting parts</div></div>
-    <div class="stat"><div class="n" id="rReady">—</div><div class="l">Ready for line</div></div>
-    <div class="stat"><div class="n" id="rCost">—</div><div class="l">Open recon $</div></div>
-    <div class="sp"></div>
-    <button class="btn" onclick="openNew()">＋ Add to shop</button>
-  </div>
-  <div class="board" id="board"></div>
-</div>
-
-<div class="scrim" id="scrim" onclick="if(event.target===this)close2()"><div class="modal">
-  <h2 id="mTitle">Add to shop</h2>
-  <div class="two"><div class="fld"><label>Vehicle</label><input id="f_vehicle" placeholder="2018 BMW M240i"></div>
-    <div class="fld"><label>Stock #</label><input id="f_stock"></div></div>
-  <div class="two"><div class="fld"><label>Tech</label><input id="f_tech"></div>
-    <div class="fld"><label>Status</label><select id="f_status"></select></div></div>
-  <div class="fld"><label>Recon checklist</label>
-    <div class="checks">
-      <label><input type="checkbox" id="c_inspection"> Inspection</label>
-      <label><input type="checkbox" id="c_mechanical"> Mechanical</label>
-      <label><input type="checkbox" id="c_tires"> Tires</label>
-      <label><input type="checkbox" id="c_detail"> Detail</label>
-      <label><input type="checkbox" id="c_photos"> Photos</label>
-    </div></div>
-  <div class="fld"><label>Recon cost ($)</label><input id="f_reconCost" type="number"></div>
-  <div class="fld"><label>Notes</label><textarea id="f_notes" style="min-height:48px"></textarea></div>
-  <div class="mrow"><button class="btn" style="flex:1" onclick="saveIt()">Save</button><button class="mini del" id="delBtn" onclick="delIt()">Delete</button><button class="mini" onclick="close2()">Cancel</button></div>
-</div></div>
-
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reconditioning · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
 <script>
-(function(){
-  var el=function(id){return document.getElementById(id);};
-  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-  var money=function(n){n=+n||0;return '$'+Math.round(n).toLocaleString();};
-  var RSTATUS=window.SR.RSTATUS, RECON=[], CUR=null;
-  var ITEMS=['inspection','mechanical','tires','detail','photos'];
-  el('f_status').innerHTML=RSTATUS.map(function(s){return '<option>'+s+'</option>';}).join('');
-  function done(cl){ cl=cl||{}; return ITEMS.filter(function(k){return cl[k];}).length; }
+(function () {
+  var F = window.FB, c = F.mount({ active:"recon.html", crumb:"Reconditioning" }), d = F.db();
+  c.appendChild(F.page("Reconditioning","The shop pipeline — and the gate. A unit can\'t hit the line until recon reads Ready. Recon cost isn\'t a separate bucket; it rolls straight into the unit\'s all-in, so you always know what a car is truly into you.",
+    '<span class="tag crim">line gate</span>'));
 
-  function load(){ window.SR.list('recon').then(function(a){ RECON=a||[]; render(); }); }
-  function render(){
-    el('rShop').textContent=RECON.filter(function(r){return r.status==='In shop';}).length;
-    el('rParts').textContent=RECON.filter(function(r){return r.status==='Waiting parts';}).length;
-    el('rReady').textContent=RECON.filter(function(r){return r.status==='Ready';}).length;
-    el('rCost').textContent=money(RECON.filter(function(r){return r.status!=='Ready';}).reduce(function(s,r){return s+(+r.reconCost||0);},0));
-    el('board').innerHTML=RSTATUS.map(function(st){
-      var items=RECON.filter(function(r){return (r.status||'In shop')===st;});
-      return '<div class="col"><h3>'+st+' <span class="v">'+items.length+'</span></h3>'+
-        (items.length?items.map(card).join(''):'<div class="empty">—</div>')+'</div>';
-    }).join('');
-    el('board').querySelectorAll('[data-id]').forEach(function(c){c.addEventListener('click',function(){openEdit(c.getAttribute('data-id'));});});
-  }
-  function card(r){
-    var d=done(r.checklist), pct=Math.round(d/ITEMS.length*100);
-    return '<div class="card" data-id="'+esc(r.id)+'"><div class="t">'+esc(r.vehicle||'—')+'</div>'+
-      '<div class="s">'+(r.stock?'#'+esc(r.stock)+' · ':'')+(r.tech?'🔧 '+esc(r.tech):'')+'</div>'+
-      '<div class="prog"><i style="width:'+pct+'%"></i></div>'+
-      '<div class="rw"><span>'+d+'/'+ITEMS.length+' done</span><span class="cost">'+money(r.reconCost)+'</span></div></div>';
-  }
-  function openNew(){ CUR=null; el('mTitle').textContent='Add to shop'; ['vehicle','stock','tech','reconCost','notes'].forEach(function(k){el('f_'+k).value='';}); el('f_status').value='In shop'; ITEMS.forEach(function(k){el('c_'+k).checked=false;}); el('delBtn').style.display='none'; el('scrim').classList.add('on'); el('f_vehicle').focus(); }
-  function openEdit(id){ CUR=RECON.find(function(x){return x.id===id;}); if(!CUR)return; el('mTitle').textContent='Edit recon'; ['vehicle','stock','tech','reconCost','notes'].forEach(function(k){el('f_'+k).value=CUR[k]==null?'':CUR[k];}); el('f_status').value=CUR.status||'In shop'; var cl=CUR.checklist||{}; ITEMS.forEach(function(k){el('c_'+k).checked=!!cl[k];}); el('delBtn').style.display=''; el('scrim').classList.add('on'); }
-  function saveIt(){ var rec=CUR?Object.assign({},CUR):{}; ['vehicle','stock','tech','notes'].forEach(function(k){rec[k]=el('f_'+k).value;}); rec.status=el('f_status').value; rec.reconCost=el('f_reconCost').value===''?'':+el('f_reconCost').value; var cl={}; ITEMS.forEach(function(k){cl[k]=el('c_'+k).checked;}); rec.checklist=cl; window.SR.save('recon',rec).then(function(){close2();load();}); }
-  function delIt(){ if(!CUR||!confirm('Remove from shop?'))return; window.SR.del('recon',CUR.id).then(function(){close2();load();}); }
-  function close2(){ el('scrim').classList.remove('on'); }
-  window.openNew=openNew;window.saveIt=saveIt;window.delIt=delIt;window.close2=close2;
+  var inShop = d.units.filter(function(u){ return u.recon!=="Ready"; });
+  var blocked = F.listBlocked(d);
+  c.appendChild(F.card('<div class="between"><div><h2>In the shop</h2><div class="card-sub">Waiting · In shop · Waiting parts · Ready. The owner wants two of these on the line — the gate holds them.</div></div><div>'+F.tag(blocked.length+" held from line","crim")+'</div></div>'+
+    (inShop.length ?
+    '<table><thead><tr><th>Unit</th><th style="width:140px">Recon</th><th style="text-align:right">Recon cost</th><th>On the line?</th></tr></thead><tbody>'+
+    inShop.map(function(u){ var can=F.canList(u);
+      return '<tr><td><div class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</div><div class="t-sub">'+F.esc(u.stock+" · "+u.note)+'</div></td>'+
+      '<td><span class="chip hold">'+F.esc(u.recon)+'</span></td>'+
+      '<td style="text-align:right" class="mono">'+F.money((u.reconParts||0)+(u.reconLabor||0))+'</td>'+
+      '<td>'+(can?'<span class="chip clear">✓ cleared</span>':'<span class="chip hold">✗ held by the gate</span>')+'</td></tr>'; }).join("")+'</tbody></table>'
+    : '<div class="empty">The shop is clear — every unit is Ready for the line.</div>')+
+    '<div class="fence crim" style="margin-top:12px"><b>Why the gate matters.</b> List a car before it\'s reconditioned and you\'ve advertised something you can\'t deliver clean — a bad review, a comeback, or worse. The gate keeps a not-Ready unit off Cars.com until the work is done.</div>'));
 
-  window.AssistantContext=function(){ return { view:'reconditioning shop', open:RECON.filter(function(r){return r.status!=='Ready';}).length, recon:RECON.map(function(r){return {vehicle:r.vehicle,tech:r.tech,status:r.status,done:done(r.checklist)+'/'+ITEMS.length,cost:r.reconCost,notes:r.notes};}) }; };
-  load();
+  /* ready units feeding the line */
+  var ready = d.units.filter(function(u){ return u.recon==="Ready"; });
+  c.appendChild(F.card('<h2>Cleared for the line</h2><div class="card-sub">Reconditioned and sellable. Recon cost is already in each unit\'s all-in.</div>'+
+    '<table><thead><tr><th>Unit</th><th style="text-align:right">Recon in all-in</th><th>Listed</th></tr></thead><tbody>'+
+    ready.map(function(u){ return '<tr><td class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</td><td style="text-align:right" class="mono">'+F.money((u.reconParts||0)+(u.reconLabor||0))+'</td><td>'+(u.listed?'<span class="chip clear">on the line</span>':'<span class="chip hold">not yet</span>')+'</td></tr>'; }).join("")+'</tbody></table>'+F.srcNote(F.BENCH.recon.src)));
 })();
-</script>
-</body>
-</html>
+</script></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Floor Plan & Carry · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"floorplan.html", crumb:"Floor Plan & Carry" }), d = F.db();
+  c.appendChild(F.page("Floor Plan & Carry","What your money costs per day. Floor-plan interest accrues on every unit, every day it sits — so days-on-lot isn\'t a marketing number, it\'s a bill. This is the number a small lot doesn\'t track well, and it\'s the one that quietly eats a month.",
+    '<span class="tag mag">the daily bill</span>'));
+
+  c.appendChild(F.card('<h2>The lot\'s carry</h2><div class="card-sub">Across every unsold unit.</div>'+
+    '<div class="statrow">'+
+      F.stat("Money tied up", F.money(F.moneyTiedUp(d)), F.unsold(d).length+" units, all-in", "mag")+
+      F.stat("Carry / day", F.money(F.carryPerDay(d)), "floor-plan interest, today", "watch")+
+      F.stat("Carry / month", F.money(F.carryPerMonth(d)), "at this pace", "watch")+
+      F.stat("Aging units", F.agingUnits(d).length, "35+ days on the lot", F.agingUnits(d).length?"bad":"good")+
+    '</div>'+F.srcNote(F.BENCH.floor.src)));
+
+  c.appendChild(F.card('<h2>Carry by unit</h2><div class="card-sub">Every day on the lot times the unit\'s floor-plan rate. Sorted by what it\'s costing you — the aged units bleed the most.</div>'+
+    '<table><thead><tr><th>Unit</th><th>Days</th><th style="text-align:right">$/day</th><th style="text-align:right">Carry to date</th><th style="width:150px">Eating the front</th></tr></thead><tbody>'+
+    F.unsold(d).slice().sort(function(a,b){return F.carry(b)-F.carry(a);}).map(function(u){
+      var carry=F.carry(u), fp=F.frontPotential(u)+carry; /* front before carry */ var pctEat=fp>0?(carry/fp*100):0;
+      return '<tr><td><div class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</div><div class="t-sub">'+F.esc(u.stock)+'</div></td>'+
+      '<td>'+F.tag(u.daysOnLot+"d", u.daysOnLot>=35?"crim":"ghost")+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(u.flrRate)+'</td>'+
+      '<td style="text-align:right" class="mono"><b>'+F.money(carry)+'</b></td>'+
+      '<td class="fillcell"><span class="mono small">'+pctEat.toFixed(0)+'% of front</span><div class="bar '+(pctEat>10?"":"good")+'"><i style="width:'+Math.min(100,pctEat*4)+'%"></i></div></td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence crim" style="margin-top:12px"><b>The Outback and the Sierra are the leak.</b> At 48 and 39 days, their carry has eaten a real slice of the spread and it grows daily. Move the price, or wholesale — the worst move is to let them sit. The org staged a price-move for your call. <a href="approvals.html">See the desk →</a></div>'));
+})();
+</script></body></html>

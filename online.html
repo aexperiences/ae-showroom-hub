@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Online Sales · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"online.html", crumb:"Online Sales" }), d = F.db();
+  c.appendChild(F.page("Online Sales","The online pipeline and deposits — for the buyers who start on their phone. Reserve, quote, submit, done. A held deposit takes a car off the market for a real buyer; the OS tracks it so nobody double-sells the F-150."));
+
+  var held = d.online.filter(function(o){return o.deposit>0;});
+  c.appendChild(F.card('<h2>Online pipeline</h2><div class="card-sub">New · Working · Quoted · Held · Submitted · Done.</div>'+
+    '<div class="statrow">'+
+      F.stat("In pipeline", d.online.length, "active online deals", "mag")+
+      F.stat("Deposits held", F.money(held.reduce(function(s,o){return s+o.deposit;},0)), held.length+" unit"+(held.length===1?"":"s")+" reserved", "good")+
+    '</div>'));
+
+  c.appendChild(F.card('<h2>Active online deals</h2><div class="card-sub">The F-150 is reserved with a real deposit — hold it off the lot listings so it isn\'t sold twice.</div>'+
+    '<table><thead><tr><th>Vehicle</th><th>Stage</th><th style="text-align:right">Deposit</th><th>Note</th></tr></thead><tbody>'+
+    d.online.map(function(o){ var st=o.stage==="Held"?"good":(o.stage==="Submitted"?"watch":"ghost");
+      return '<tr><td class="t-main">'+F.esc(o.vehicle)+'</td><td>'+F.tag(o.stage,st)+'</td><td style="text-align:right" class="mono">'+(o.deposit?F.money(o.deposit):'—')+'</td><td class="muted small">'+F.esc(o.note)+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>A deposit is a fence.</b> Taking a deposit online is fine; refunding one, or applying it at delivery, moves real money — so it routes to the Approval Desk, never happens on its own.</div>'));
+})();
+</script></body></html>

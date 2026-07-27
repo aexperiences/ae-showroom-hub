@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Titles & Compliance · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"titles.html", crumb:"Titles & Compliance" }), d = F.db();
+  c.appendChild(F.page("Titles & Compliance","The paperwork gate — and the one-click Deal Jacket. Pick a deal; the jacket compiles the whole thing into one compliant packet and checks the three things that stop a delivery: title in hand, the FTC Buyers Guide, and the odometer disclosure. A car can\'t be delivered until all three are green.",
+    '<span class="tag gold">One-Click Deal Jacket</span>'));
+
+  c.appendChild(F.card('<div class="fence crim"><b>Not legal advice.</b> 4barrel OS flags the federal and state paperwork every used-car delivery needs — the FTC Buyers Guide (16 CFR 455), odometer disclosure (49 CFR 580), and title in hand. It doesn\'t practice law. Doc-fee caps, advertising rules and BHPH/repossession specifics belong with your attorney.</div>'));
+
+  var sel = '<div class="row" style="gap:8px;flex-wrap:wrap">'+d.deals.map(function(x){
+    return '<button class="btn ghost sm dsel" data-id="'+x.id+'">'+F.esc(x.vehicle)+' <span class="muted small">· '+F.esc(x.buyer)+'</span></button>';
+  }).join("")+'</div>';
+  c.appendChild(F.card('<h2>Choose a deal to compile</h2><div class="card-sub">Every deal on the desk. The jacket is live — flip a document to done and the gate re-checks.</div>'+sel));
+
+  var host = document.createElement("div"); host.id="jacketHost"; c.appendChild(host);
+
+  function docRow(label, ref, done, id, field){
+    return '<tr><td><div class="t-main">'+F.esc(label)+'</div><div class="t-sub">'+F.esc(ref)+'</div></td>'+
+      '<td style="text-align:right">'+(done?'<span class="chip clear">✓ done</span>':'<button class="btn ghost sm docfix" data-id="'+id+'" data-f="'+field+'">Mark done</button>')+'</td></tr>';
+  }
+  function render(id){
+    d = F.db();
+    var x = d.deals.filter(function(y){return y.id===id;})[0]; if(!x) return;
+    var can = F.canDeliver(x), p=x.products||{};
+    var structName = (F.DEAL_STRUCTS.filter(function(s){return s.k===x.struct;})[0]||{}).name || x.struct;
+    var html =
+      '<div class="between"><div><h2>Deal Jacket — '+F.esc(x.vehicle)+'</h2><div class="card-sub">'+F.esc(x.num)+' · '+F.esc(x.buyer)+' · '+F.esc(structName)+'</div></div><div>'+F.tag(x.delivered?"delivered":(can?"ready to deliver":"blocked"), x.delivered?"good":(can?"good":"crim"))+'</div></div>'+
+      '<div class="grid g2" style="margin-top:6px">'+
+        '<div><table><thead><tr><th>The money</th><th style="text-align:right">Amount</th></tr></thead><tbody>'+
+          '<tr><td>Sale price</td><td style="text-align:right" class="mono">'+F.money(x.salePrice)+'</td></tr>'+
+          '<tr><td>All-in cost <span class="muted small">(carry incl.)</span></td><td style="text-align:right" class="mono">−'+F.money(x.allIn)+'</td></tr>'+
+          '<tr class="totrow"><td><b>Front gross</b></td><td style="text-align:right" class="mono"><b>'+F.money(F.dealFront(x))+'</b></td></tr>'+
+          '<tr><td>Service contract (VSC)</td><td style="text-align:right" class="mono">'+F.money(p.vsc||0)+'</td></tr>'+
+          '<tr><td>GAP</td><td style="text-align:right" class="mono">'+F.money(p.gap||0)+'</td></tr>'+
+          '<tr class="totrow"><td><b>Back gross</b></td><td style="text-align:right" class="mono"><b>'+F.money(F.dealBack(x))+'</b></td></tr>'+
+          '<tr class="grandrow"><td><b>Total gross (PVR)</b></td><td style="text-align:right" class="mono"><b>'+F.money(F.dealTotal(x))+'</b></td></tr>'+
+        '</tbody></table></div>'+
+        '<div><table><thead><tr><th>The paperwork gate</th><th style="text-align:right">Status</th></tr></thead><tbody>'+
+          docRow("Title in hand (lien cleared)","Idaho ITD · title & registration", x.titleInHand, x.id, "titleInHand")+
+          docRow("FTC Buyers Guide posted","16 CFR 455 · FTC Used Car Rule", x.buyersGuide, x.id, "buyersGuide")+
+          docRow("Odometer disclosure captured","49 CFR 580", x.odometer, x.id, "odometer")+
+        '</tbody></table>'+
+        '<div class="fence'+(can?'':' crim')+'" style="margin-top:10px">'+(can?'<b>Clear to deliver.</b> Title in hand, Buyers Guide posted, odometer disclosed.':'<b>Blocked.</b> '+F.esc(x.note))+'</div></div>'+
+      '</div>'+
+      '<div class="row" style="margin-top:14px;gap:10px">'+
+        (x.delivered ? '<span class="chip clear">✓ delivered &amp; filed</span>' :
+          '<button class="btn gold" id="doJacket" data-id="'+x.id+'">Compile the Deal Jacket →</button>')+
+        '<span class="muted small" style="max-width:46ch;line-height:1.5">Compiling stages the delivery on the Approval Desk. It does <b>not</b> deliver the car or move title — Ghost Mode. The owner signs, then it delivers.</span>'+
+      '</div>';
+    host.innerHTML=''; host.appendChild(F.card(html));
+
+    Array.prototype.forEach.call(document.querySelectorAll(".docfix"), function(b){ b.addEventListener("click", function(){
+      var f=b.dataset.f; F.save(function(dd){ dd.deals.forEach(function(y){ if(y.id===id) y[f]=true; }); });
+      F.toast("Marked done — the gate re-checked.","ok"); render(id);
+    }); });
+    var j=document.getElementById("doJacket");
+    if(j) j.addEventListener("click", function(){
+      if(!F.canDeliver(x)){ F.toast("Blocked — title, Buyers Guide and odometer must all be done first.",""); return; }
+      F.stage("deliver","Deliver "+x.vehicle, "Deal jacket compiled: "+F.money(F.dealTotal(x))+" total gross. Title, Buyers Guide and odometer all clear.", "A delivery moves clean title and signs federal disclosures — the owner signs it, not the software.", "Marlow (Titles AE)");
+      F.toast("Deal Jacket compiled and staged on the Approval Desk — nothing delivered.","ok");
+      setTimeout(function(){ location.href="approvals.html"; }, 900);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".dsel"), function(b){ b.addEventListener("click", function(){
+    Array.prototype.forEach.call(document.querySelectorAll(".dsel"), function(x){x.classList.remove("gold");x.classList.add("ghost");});
+    b.classList.remove("ghost"); b.classList.add("gold"); render(b.dataset.id);
+  }); });
+  /* default to the blocked deal — the teachable one */
+  var def = F.deliverBlocked(d)[0] || d.deals[0];
+  if(def){ var btn=document.querySelector('.dsel[data-id="'+def.id+'"]'); if(btn){btn.classList.remove("ghost");btn.classList.add("gold");} render(def.id); }
+})();
+</script></body></html>

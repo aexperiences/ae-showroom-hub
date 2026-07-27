@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Command Center · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"dashboard.html", crumb:"Command Center" }), d = F.db();
+  c.appendChild(F.page("Command Center","Not a franchise scoreboard — the one question a small lot actually asks: what's my money tied up in, what's it costing me per day, and is my paperwork going to get me fined? Every number is computed from this lot's own units and deals."));
+
+  /* signature row: cost of carry is the headline */
+  var tied = F.moneyTiedUp(d), perDay = F.carryPerDay(d), aged = F.agingUnits(d), blocked = F.listBlocked(d), needTitle = F.deliverBlocked(d);
+  c.appendChild(F.card(
+    '<h2>Your money, on the lot</h2><div class="card-sub">Days-on-lot is a bill. Every unit carries its all-in cost — acquisition, fees, transport, recon, and the floor-plan interest that grows daily.</div>'+
+    '<div class="statrow">'+
+      F.stat("Money tied up", F.money(tied), F.unsold(d).length+" units, all-in", "mag")+
+      F.stat("Carry / day", F.money(perDay), "≈ "+F.money(F.carryPerMonth(d))+"/mo in floor plan", "watch")+
+      F.stat("Aging units", aged.length, aged.length?aged.map(function(u){return u.model+" "+u.daysOnLot+"d";}).join(", "):"none", aged.length?"bad":"good")+
+      F.stat("Held for recon", blocked.length, blocked.length?"can't list until Ready":"line is clear", blocked.length?"watch":"good")+
+      F.stat("Blocked to deliver", needTitle.length, needTitle.length?"paperwork gate":"none", needTitle.length?"bad":"good")+
+    '</div>'+F.srcNote(F.BENCH.floor.src)
+  ));
+
+  /* the recon gate: what can't hit the line */
+  c.appendChild(F.card(
+    '<div class="between"><div><h2>The line gate — recon</h2><div class="card-sub">A unit can\'t go live on Cars.com or the lot until recon reads Ready. Listing a car you can\'t sell clean is a complaint, not a sale.</div></div>'+
+    '<div>'+F.tag(blocked.length+" held", blocked.length?"crim":"good")+'</div></div>'+
+    (blocked.length ?
+      '<table><thead><tr><th>Unit</th><th style="width:150px">Recon</th><th>On the line</th></tr></thead><tbody>'+
+      blocked.map(function(u){
+        return '<tr><td><div class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</div><div class="t-sub">'+F.esc(u.stock)+' · '+F.esc(u.note)+'</div></td>'+
+        '<td><span class="chip hold">'+F.esc(u.recon)+'</span></td>'+
+        '<td><span class="chip hold">✗ held</span></td></tr>'; }).join("")+'</tbody></table>'
+      : '<div class="empty">Every unit the owner wants live is reconditioned and cleared for the line.</div>')+
+    '<div class="fence crim" style="margin-top:12px"><b>The Equinox is held.</b> Meg wants it live for weekend traffic, but the rear brakes are on order — recon isn\'t Ready. The gate keeps it off the line until it is. <a href="recon.html">Work the shop →</a></div>'
+  ));
+
+  /* per-unit all-in cost & carry */
+  c.appendChild(F.card(
+    '<div class="between"><div><h2>Per-unit all-in &amp; front potential</h2><div class="card-sub">What each unit is really into you — carry included — and the front gross left in it at the asking price.</div></div><div>'+F.tag("live math","mag")+'</div></div>'+
+    '<table><thead><tr><th>Unit</th><th style="text-align:right">Price</th><th style="text-align:right">All-in</th><th style="text-align:right">Carry</th><th style="text-align:right">Front left</th><th>Days</th></tr></thead><tbody>'+
+    F.unsold(d).map(function(u){ var fp=F.frontPotential(u), old=(u.daysOnLot>=35);
+      return '<tr><td><div class="t-main">'+F.esc(u.year+" "+u.make+" "+u.model)+'</div><div class="t-sub">'+F.esc(u.stock+" · "+u.src)+'</div></td>'+
+      '<td style="text-align:right" class="mono">'+F.money(u.price)+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(F.allInCost(u))+'</td>'+
+      '<td style="text-align:right" class="mono">'+F.money(F.carry(u))+'</td>'+
+      '<td style="text-align:right" class="mono"><b style="color:'+(fp>1500?'var(--good)':'var(--watch)')+'">'+F.money(fp)+'</b></td>'+
+      '<td>'+F.tag(u.daysOnLot+"d", old?"crim":"ghost")+'</td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>The Outback\'s carry is eating it.</b> 48 days in, the floor-plan interest has chewed real money out of the spread. Move the price or wholesale it before it turns into a loss. <a href="floorplan.html">See the carry →</a></div>'
+  ));
+
+  /* pending fences */
+  var pend = F.approvals().filter(function(a){return a.state==="Pending";});
+  c.appendChild(F.card('<div class="between"><div><h2>On the Approval Desk</h2><div class="card-sub">Ghost Mode — the org clears what it can; only fences (list a unit, deliver a car, spend, move a price) reach you.</div></div><div>'+F.tag(pend.length+" pending", pend.length?"watch":"good")+'</div></div>'+
+    '<div class="stack">'+pend.map(function(a){return '<div class="fence'+(a.kind==="list"||a.kind==="deliver"?" crim":"")+'"><b>'+F.esc(a.title)+'</b><br><span class="small">'+F.esc(a.summary)+'</span></div>';}).join("")+'</div>'+
+    '<div class="row" style="margin-top:12px"><a class="btn gold sm" href="approvals.html">Open the Approval Desk →</a></div>'));
+})();
+</script></body></html>

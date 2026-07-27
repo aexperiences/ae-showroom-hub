@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finance & Products · 4barrel OS</title><link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fourbarrel.css"></head><body>
+<script src="fourbarrel.js"></script>
+<script>
+(function () {
+  var F = window.FB, c = F.mount({ active:"fni.html", crumb:"Finance & Products" }), d = F.db();
+  c.appendChild(F.page("Finance & Products","Lenders, service contracts and GAP — where an independent\'s back gross actually comes from. On a small lot the real back gross lives on the dealer-arranged deals, not the cash or bring-your-own-bank ones. And every product has to disclose its payment impact cleanly — that\'s a compliance line, not a sales line."));
+
+  var arranged = d.deals.filter(function(x){return x.struct==="arranged";});
+  var back = d.deals.reduce(function(s,x){return s+F.dealBack(x);},0);
+  c.appendChild(F.card('<h2>Back gross, honestly</h2><div class="card-sub">Products by deal — and where the back gross really sits.</div>'+
+    '<div class="statrow">'+
+      F.stat("Back gross booked", F.money(back), "across delivered + pending", "mag")+
+      F.stat("On arranged deals", arranged.length, "where products belong")+
+      F.stat("VSC + GAP", F.money(d.deals.reduce(function(s,x){var p=x.products||{};return s+(p.vsc||0)+(p.gap||0);},0)), "service contracts + GAP")+
+    '</div>'));
+
+  c.appendChild(F.card('<h2>Product menu by deal</h2><div class="card-sub">Cash and outside-finance deals carry thin back gross by nature — the org won\'t chase products where the disclosure risk isn\'t worth it.</div>'+
+    '<table><thead><tr><th>Deal</th><th>Structure</th><th style="text-align:right">VSC</th><th style="text-align:right">GAP</th><th style="text-align:right">Back gross</th></tr></thead><tbody>'+
+    d.deals.map(function(x){ var p=x.products||{}; var structName=(F.DEAL_STRUCTS.filter(function(s){return s.k===x.struct;})[0]||{}).name||x.struct;
+      return '<tr><td class="t-main">'+F.esc(x.vehicle)+'</td><td><span class="mono small">'+F.esc(structName)+'</span></td>'+
+      '<td style="text-align:right" class="mono">'+F.money(p.vsc||0)+'</td><td style="text-align:right" class="mono">'+F.money(p.gap||0)+'</td>'+
+      '<td style="text-align:right" class="mono"><b>'+F.money(F.dealBack(x))+'</b></td></tr>'; }).join("")+'</tbody></table>'+
+    '<div class="fence" style="margin-top:12px"><b>Where BHPH would change this.</b> If you carried your own paper, the real return isn\'t a number booked at delivery — it\'s the note, collected over months, with its own payment schedule, late-fee and repossession rules. That\'s a whole module, and it needs your state\'s law and counsel before it ships.</div>'));
+})();
+</script></body></html>
