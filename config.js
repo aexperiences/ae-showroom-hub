@@ -9,7 +9,7 @@ window.HUB_CONFIG = {
   brand: {
     name:    "4barrel OS",
     short:   "4barrel",
-    version: "V1.1",
+    version: "V3.5",
     tagline: "Every car, buyer & deal in one place",
     logo:    "https://aexperiences.com/4barrel_OS.png",
     credit:  "Powered by Accelerated Experiences, LLC"
