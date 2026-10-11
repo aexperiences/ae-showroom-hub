@@ -78,13 +78,10 @@
   var T=window.FB;
   var c=T.mount({active:"connect.html",crumb:"Connect"});
   var API=window.AE4BARREL_API+'/api/connect'; var NS='4barrel';
-  var TEAM=[
-    {slug:"dex-morrow",name:"Dex Morrow",role:"Owner",init:"DM"},
-    {slug:"carla-benson",name:"Carla Benson",role:"Sales",init:"CB"},
-    {slug:"tony-ruiz",name:"Tony Ruiz",role:"Recon Manager",init:"TR"},
-    {slug:"shay-porter",name:"Shay Porter",role:"Title Clerk",init:"SP"},
-    {slug:"ivan-petrov",name:"Ivan Petrov",role:"Detail",init:"IP"}
-  ];
+  /* The team comes from the dealership's own book (people only; the AI seats live in the Agent Org). */
+  var TEAM=(window.Fourbarrel.db().team||[]).filter(function(m){return /^Human/.test(m.type);}).map(function(m){
+    var w=m.name.split(/\s+/); return {slug:m.id,name:m.name,role:m.role,init:(w[0][0]||"")+((w[w.length-1]||"")[0]||"")};
+  });
   var CHANNELS=[
     {ch:"lot",name:"# lot",desc:"The whole lot"},
     {ch:"recon",name:"# recon",desc:"Getting cars front-line ready"},
@@ -114,7 +111,7 @@
       '</div>'+
       '<div>'+
         '<div class="card"><h2 style="margin:0 0 4px">Meeting rooms</h2><div class="card-sub" style="margin-bottom:8px">Native video, up to the whole firm. A room with people in it shows in “Live now” above.</div><div id="cnRooms"></div></div>'+
-        '<div class="card" style="margin-top:18px"><h2 style="margin:0 0 4px">Outreach — bring in a guest</h2><div class="card-sub" style="margin-bottom:8px">A client, the county reviewer, a contractor: name them, send the link, they join from a plain browser. No app, no account.</div>'+
+        '<div class="card" style="margin-top:18px"><h2 style="margin:0 0 4px">Outreach — bring in a guest</h2><div class="card-sub" style="margin-bottom:8px">A buyer, a lender, the DMV clerk: name them, send the link, they join from a plain browser. No app, no account.</div>'+
         '<div style="display:flex;gap:9px;flex-wrap:wrap"><input id="cnGuest" placeholder="Guest or meeting name…" style="flex:1;min-width:170px;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;background:var(--card)">'+
         '<button class="cn-btn amber" id="cnInvite">Create invite link</button></div>'+
         '<div id="cnInviteOut" style="margin-top:10px;font-size:12.5px;color:var(--mut);word-break:break-all"></div></div>'+

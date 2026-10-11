@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%">
+<defs>
+<linearGradient id="tile" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0%" stop-color="#f2cf6b"/><stop offset="46%" stop-color="#b78a1a"/><stop offset="100%" stop-color="#3a2a05"/></linearGradient>
+<linearGradient id="glare" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff" stop-opacity=".22"/><stop offset="44%" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="halo" cx="0.5" cy="0.46" r="0.42"><stop offset="0%" stop-color="#ffe2a6" stop-opacity=".30"/><stop offset="100%" stop-color="#ffe2a6" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#tile)"/>
+<rect width="1024" height="1024" fill="url(#halo)"/>
+<g fill="#e0a83a" opacity=".13"><polygon points="512,470 463,-88 561,-88"/><polygon points="512,470 690,112 733,136"/><polygon points="512,470 971,149 1020,233"/><polygon points="512,470 911,446 911,494"/><polygon points="512,470 1020,707 971,791"/><polygon points="512,470 733,804 690,828"/><polygon points="512,470 561,1028 463,1028"/><polygon points="512,470 334,828 291,804"/><polygon points="512,470 53,791 4,707"/><polygon points="512,470 113,494 113,446"/><polygon points="512,470 4,233 53,149"/><polygon points="512,470 291,136 334,112"/></g>
+<rect width="1024" height="1024" fill="url(#glare)"/>
+
+<path d="M0 820 L1024 820 L1024 1024 L0 1024Z" fill="#1c1402" opacity=".35"/>
+<ellipse cx="512" cy="900" rx="330" ry="26" fill="#120c01" opacity=".5"/>
+<line x1="512" y1="140" x2="330" y2="250" stroke="#2b2724" stroke-width="8"/><line x1="512" y1="140" x2="694" y2="250" stroke="#2b2724" stroke-width="8"/><circle cx="512" cy="140" r="14" fill="#2b2724"/>
+<rect x="220" y="240" width="584" height="460" rx="20" fill="#5e2f0b"/>
+<rect x="250" y="270" width="524" height="400" rx="8" fill="#fffaf0"/>
+<rect x="296" y="310" width="300" height="26" rx="13" fill="#7a2430"/>
+<g fill="#b78a1a" opacity=".55"><rect x="296" y="370" width="420" height="14" rx="7"/><rect x="296" y="400" width="380" height="14" rx="7"/><rect x="296" y="430" width="400" height="14" rx="7"/><rect x="296" y="460" width="300" height="14" rx="7"/></g>
+<path d="M296 580 q30 -40 60 0 t60 0" stroke="#2b2724" stroke-width="6" fill="none"/>
+<g>
+ <path d="M630 590 L610 690 L650 664 L680 700 L690 600Z" fill="#c8102e"/>
+ <circle cx="660" cy="560" r="62" fill="#e0a83a"/><circle cx="660" cy="560" r="44" fill="#f4c55a"/>
+ <path d="M636 560 l16 16 l30 -34" stroke="#7a4a05" stroke-width="12" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="rotate(8 760 760)">
+ <rect x="660" y="700" width="200" height="120" rx="16" fill="#fffaf0"/>
+ <rect x="660" y="700" width="200" height="40" rx="16" fill="#c8102e"/><rect x="660" y="724" width="200" height="16" fill="#c8102e"/>
+ <text x="760" y="800" font-family="Arial Black,Arial" font-weight="900" font-size="44" fill="#2b2724" text-anchor="middle">DEC</text>
+</g>
+</svg>

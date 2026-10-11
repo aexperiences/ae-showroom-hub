@@ -58,13 +58,13 @@
     {k:"firm",ic:"🏢",name:"The lot",desc:"Dealer license, bond, insurance, lease."}
   ];
 
-  /* Seeded records — real McArthur artifacts where they exist, honestly labeled. */
+  /* Seeded records — filed by the dealership's own team. */
   var SEED=[
-    {cab:"firm",name:"Idaho dealer license & bond",kind:"pdf",tag:"sot",who:"Dex Morrow",when:"2026-01-05",note:"The paper that lets the doors open."},
-    {cab:"inventory",name:"Title log — open titles",kind:"xls",tag:"sot",who:"Shay Porter",when:"2026-07-27",note:"Nothing delivers without title in hand."},
-    {cab:"compliance",name:"FTC buyer's guide — current form",kind:"pdf",tag:"sot",who:"Shay Porter",when:"2026-02-10",note:""},
-    {cab:"deals",name:"Funded deals — July",kind:"pdf",tag:"fin",who:"Carla Benson",when:"2026-07-25",note:""},
-    {cab:"recon",name:"Recon work orders — open",kind:"xls",tag:"wip",who:"Tony Ruiz",when:"2026-07-27",note:""}
+    {cab:"firm",name:"Idaho dealer license & bond",kind:"pdf",tag:"sot",who:"Ray Delgado",when:"2026-01-05",note:"The paper that lets the doors open."},
+    {cab:"inventory",name:"Title log — open titles",kind:"xls",tag:"sot",who:"Ray Delgado",when:"2026-07-27",note:"Nothing delivers without title in hand."},
+    {cab:"compliance",name:"FTC buyer's guide — current form",kind:"pdf",tag:"sot",who:"Ray Delgado",when:"2026-02-10",note:""},
+    {cab:"deals",name:"Funded deals — July",kind:"pdf",tag:"fin",who:"Ray Delgado",when:"2026-07-25",note:""},
+    {cab:"recon",name:"Recon work orders — open",kind:"xls",tag:"wip",who:"Meg Sato",when:"2026-07-27",note:""}
   ];
 
   function load(){ try{ var d=JSON.parse(sessionStorage.getItem(KEY)); if(d&&d.length) return d; }catch(e){} return SEED.slice(); }

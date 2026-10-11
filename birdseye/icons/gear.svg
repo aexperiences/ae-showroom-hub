@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+<defs>
+<linearGradient id="ggear" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0%" stop-color="#d8d3c8"/><stop offset="55%" stop-color="#7d7568"/><stop offset="100%" stop-color="#2d271f"/></linearGradient>
+<radialGradient id="glggear" cx="32%" cy="6%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".26"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#ggear)"/>
+<circle cx="512" cy="430" r="260" fill="#ffffff" opacity=".10"/>
+<path d="M502,280 L512,0 L522,280Z" fill="#e0a83a" opacity="0.16"/><path d="M578,295 L677,144 L596,306Z" fill="#e0a83a" opacity="0.16"/><path d="M636,346 L884,215 L647,364Z" fill="#e0a83a" opacity="0.16"/><path d="M662,420 L842,430 L662,440Z" fill="#e0a83a" opacity="0.16"/><path d="M647,496 L884,645 L636,514Z" fill="#e0a83a" opacity="0.16"/><path d="M596,554 L677,716 L578,565Z" fill="#e0a83a" opacity="0.16"/><path d="M522,580 L512,860 L502,580Z" fill="#e0a83a" opacity="0.16"/><path d="M446,565 L347,716 L428,554Z" fill="#e0a83a" opacity="0.16"/><path d="M388,514 L140,645 L377,496Z" fill="#e0a83a" opacity="0.16"/><path d="M362,440 L182,430 L362,420Z" fill="#e0a83a" opacity="0.16"/><path d="M377,364 L140,215 L388,346Z" fill="#e0a83a" opacity="0.16"/><path d="M428,306 L347,144 L446,295Z" fill="#e0a83a" opacity="0.16"/>
+<rect width="1024" height="450" fill="url(#glggear)"/>
+
+<ellipse cx="512" cy="862" rx="300" ry="40" fill="#000000" opacity=".18"/>
+<rect x="60" y="804" width="904" height="130" rx="22" fill="#4a3522"/>
+<rect x="60" y="804" width="904" height="26" rx="12" fill="#6b4c31"/>
+<polygon points="762,560 760,593 710,613 701,638 729,685 710,712 657,705 637,723 637,777 608,791 565,758 539,763 512,810 479,808 459,758 434,749 387,777 360,758 367,705 349,685 295,685 281,656 314,613 309,587 262,560 264,527 314,507 323,482 295,435 314,408 367,415 387,397 387,343 416,329 459,362 485,357 512,310 545,312 565,362 590,371 637,343 664,362 657,415 675,435 729,435 743,464 710,507 715,533" fill="#2b2b2b" stroke="#2b2b2b" stroke-width="30" stroke-linejoin="round"/>
+<polygon points="748,560 746,591 700,610 692,635 716,678 699,704 650,698 631,715 630,764 602,778 562,748 537,753 512,796 481,794 462,748 437,740 394,764 368,747 374,698 357,679 308,678 294,650 324,610 319,585 276,560 278,529 324,510 332,485 308,442 325,416 374,422 393,405 394,356 422,342 462,372 487,367 512,324 543,326 562,372 587,380 630,356 656,373 650,422 667,441 716,442 730,470 700,510 705,535" fill="#8a8f99" stroke="#8a8f99" stroke-width="30" stroke-linejoin="round"/>
+<circle cx="512" cy="560" r="150" fill="#2b2b2b"/>
+<circle cx="512" cy="560" r="124" fill="#c9cdd3"/>
+<circle cx="512" cy="560" r="62" fill="#2b2b2b"/>
+<circle cx="512" cy="560" r="40" fill="#e0a83a"/>
+
+</svg>

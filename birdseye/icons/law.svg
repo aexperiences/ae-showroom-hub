@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+<defs>
+<linearGradient id="glw" x1="0" y1="0" x2="0.65" y2="1">
+<stop offset="0%" stop-color="#e07a86"/><stop offset="55%" stop-color="#a82740"/><stop offset="100%" stop-color="#440e1c"/></linearGradient>
+<radialGradient id="gllw" cx="32%" cy="6%" r="80%">
+<stop offset="0%" stop-color="#ffffff" stop-opacity=".26"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+
+</defs>
+<rect x="0" y="0" width="1024" height="1024" fill="url(#glw)"/>
+<g id="art" transform="translate(-99.95,-114.07) scale(2.3537)">
+
+
+<path d="M118 130 A24 24 0 0 1 142 106 L370 106 A24 24 0 0 1 394 130 L394 266 C394 338 330 386 256 416 C182 386 118 338 118 266 Z" fill="#2a1810" opacity=".30" transform="translate(8,14)"/>
+<path d="M118 130 A24 24 0 0 1 142 106 L370 106 A24 24 0 0 1 394 130 L394 266 C394 338 330 386 256 416 C182 386 118 338 118 266 Z" fill="#9c6d12"/>
+<path d="M118 130 A24 24 0 0 1 142 106 L370 106 A24 24 0 0 1 394 130 L394 266 C394 338 330 386 256 416 C182 386 118 338 118 266 Z" fill="#dda12e" transform="translate(0,-4)"/>
+<g transform="translate(256,246) scale(0.875) translate(-256,-250)">
+  <path d="M118 130 A24 24 0 0 1 142 106 L370 106 A24 24 0 0 1 394 130 L394 266 C394 338 330 386 256 416 C182 386 118 338 118 266 Z" fill="#06474a"/>
+  <path d="M118 130 A24 24 0 0 1 142 106 L370 106 A24 24 0 0 1 394 130 L394 266 C394 338 330 386 256 416 C182 386 118 338 118 266 Z" fill="#0a6f6f" transform="translate(0,-3)"/>
+</g>
+
+<g transform="translate(202,214)">
+  <rect x="-52" y="-56" width="104" height="112" rx="9" fill="#2a1810" opacity=".28" transform="translate(4,7)"/>
+  <path d="M-52 -47 A9 9 0 0 1 -43 -56 L22 -56 L52 -26 L52 47 A9 9 0 0 1 43 56
+           L-43 56 A9 9 0 0 1 -52 47 Z" fill="#faf6ee"/>
+  <path d="M22 -56 L52 -26 L31 -26 A9 9 0 0 1 22 -35 Z" fill="#ddd6c6"/>
+  <g stroke="#2a2622" stroke-width="5.5" stroke-linecap="round" opacity=".20">
+    <path d="M-34 -32 L4 -32 M-34 -14 L34 -14 M-34 4 L34 4"/>
+  </g>
+  <path d="M-34 38 C-32 20 -26 12 -22 15 C-18 19 -21 32 -26 37 C-31 42 -25 42 -18 35
+           C-11 28 -6 18 -2 22 C1 25 -1 33 3 34 C8 35 12 25 16 17
+           C19 12 24 13 24 20 C24 27 22 33 19 34 C24 34 32 28 40 17"
+        fill="none" stroke="#20293d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M-30 48 L38 48" stroke="#2a2622" stroke-width="4" opacity=".24" stroke-linecap="round"/>
+</g>
+
+<g transform="translate(304,214)">
+  <g transform="translate(5,8)" opacity=".28">
+    <path d="M0 -50 L50 39 L-50 39 Z" fill="#2a1810" stroke="#2a1810" stroke-width="22" stroke-linejoin="round"/>
+  </g>
+  <path d="M0 -50 L50 39 L-50 39 Z" fill="#8a6410" stroke="#8a6410" stroke-width="26" stroke-linejoin="round"/>
+  <path d="M0 -50 L50 39 L-50 39 Z" fill="#f2c230" stroke="#f2c230" stroke-width="19" stroke-linejoin="round"/>
+  <path d="M0 -31 L34 30 L-34 30 Z" fill="none" stroke="#8a6410" stroke-width="5"
+        stroke-linejoin="round" opacity=".30"/>
+  <path d="M-7 -22 L7 -22 L4.5 14 L-4.5 14 Z" fill="#2a2622"/>
+  <circle cx="0" cy="27" r="7" fill="#2a2622"/>
+</g>
+
+<g transform="translate(256,318)">
+  <ellipse cx="4" cy="26" rx="62" ry="16" fill="#2a1810" opacity=".26"/>
+  <path d="M-46 16 C-46 -24 -26 -44 0 -44 C26 -44 46 -24 46 16 Z" fill="#c9971a"/>
+  <path d="M-46 16 C-46 -24 -26 -44 0 -44 C26 -44 46 -24 46 16 Z" fill="#f2c230" transform="translate(0,-3)"/>
+  <path d="M-8 13 C-8 -21 -4 -36 0 -41 C4 -36 8 -21 8 13 Z" fill="#c9971a" opacity=".7"/>
+  <path d="M-28 11 C-28 -15 -21 -29 -15 -35" fill="none" stroke="#c9971a" stroke-width="4.5"
+        stroke-linecap="round" opacity=".55"/>
+  <path d="M28 11 C28 -15 21 -29 15 -35" fill="none" stroke="#c9971a" stroke-width="4.5"
+        stroke-linecap="round" opacity=".55"/>
+  <path d="M-62 14 C-62 4 -34 -2 0 -2 C34 -2 62 4 62 14 C62 24 48 31 24 35
+           C12 38 -12 38 -24 35 C-48 31 -62 24 -62 14 Z" fill="#8a6410"/>
+  <path d="M-62 11 C-62 1 -34 -5 0 -5 C34 -5 62 1 62 11 C62 21 48 28 24 32
+           C12 35 -12 35 -24 32 C-48 28 -62 21 -62 11 Z" fill="#f2c230"/>
+  <path d="M-46 6 C-30 0 -12 -2 0 -2" fill="none" stroke="#fff" stroke-width="4.5"
+        stroke-linecap="round" opacity=".38"/>
+  <path d="M-26 -28 C-19 -37 -8 -40 1 -39" fill="none" stroke="#fff" stroke-width="5.5"
+        stroke-linecap="round" opacity=".33"/>
+</g>
+
+</g>
+<rect x="0" y="0" width="1024" height="1024" fill="url(#gllw)"/>
+
+</svg>
