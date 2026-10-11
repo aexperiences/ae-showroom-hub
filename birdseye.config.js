@@ -26,7 +26,7 @@
     "deals": { money: false, source: "deals[delivered=false]", fn: function(E,D,H,S){ return ([H.cnt(D.deals, d => !d.delivered), 'deal{s} not delivered']); } },
     "fni": { money: true, source: "deals[].products vsc+gap+other (same as the F&I page)", fn: function(E,D,H,S){ return ([H.money(H.sum(D.deals, x => ((x.products || {}).vsc || 0) + ((x.products || {}).gap || 0) + ((x.products || {}).other || 0))), 'back gross booked']); } },
     "leads": { money: false, source: "leads[stage=New/Appointment/Working]", fn: function(E,D,H,S){ return ([H.cnt(D.leads, l => l.stage === 'New' || l.stage === 'Appointment' || l.stage === 'Working'), 'up{s} to work']); } },
-    "online": { money: false, source: "online[].deposit", fn: function(E,D,H,S){ return ([D.online.length, 'online deal{s} · ' + H.money(H.sum(D.online, o => o.deposit)) + ' in deposits']); } },
+    "online": { money: false, source: "online[].deposit", fn: function(E,D,H,S){ return ([D.online.length, 'online deal{s} · ' + H.cnt(D.online, o => o.deposit > 0) + ' with a deposit down']); } },
     "titles": { money: false, source: "units/deals[titleInHand=false]", fn: function(E,D,H,S){ return ([H.cnt(D.units, u => !u.titleInHand) + H.cnt(D.deals, d => !d.titleInHand), 'title{s} not in hand']); } },
     "books": { money: true, source: "storeGross() ← delivered deals front + back", fn: function(E,D,H,S){ return ([H.money(E.storeGross(D)), 'store gross · ' + H.p(E.deliveredDeals(D).length, 'delivered deal{s}')]); } },
     "hr": { money: false, source: "team", fn: function(E,D,H,S){ return ([D.team.length, 'on the team']); } }
