@@ -1,74 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>4barrel OS · Used-Car OS</title>
-<meta name="description" content="4barrel OS — the operating system for a boutique, independent used-car lot. Powered by Accelerated Experiences LLC.">
-<link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="fourbarrel.css">
-<link rel="canonical" href="https://www.aexperiences.com/apps/4barrel/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Accelerated Experiences LLC">
-<meta property="og:title" content="4barrel OS — Boutique used-car lot OS">
-<meta property="og:description" content="Inventory, sales desk, leads and recon for independent and boutique used-car dealers.">
-<meta property="og:url" content="https://www.aexperiences.com/apps/4barrel/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4barrel OS — the operating system for an independent used-car lot</title>
+<meta name="description" content="4barrel OS runs a boutique, independent used-car lot end to end: inventory with the running all-in cost, the recon gate, floor plan and carry, the desk, leads and ups, finance and products, online sales, and the titles and compliance gate. A white-label build by Accelerated Experiences LLC.">
+<link rel="canonical" href="https://aexperiences.studio/apps/4barrel/">
+<meta property="og:title" content="4barrel OS — used-car lot operating system">
+<meta property="og:description" content="The lot as one system, and the only one that knows what a unit costs you per day it sits. Recon gate, the desk, titles and the Buyers Guide gate. Walk in and use it.">
 <meta property="og:image" content="https://www.aexperiences.com/4barrel_OS.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aexperiences.studio/apps/4barrel/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="4barrel OS — Boutique used-car lot OS">
-<meta name="twitter:description" content="Inventory, sales desk, leads and recon for independent and boutique used-car dealers.">
-<meta name="twitter:image" content="https://www.aexperiences.com/4barrel_OS.png">
+<link rel="icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<link rel="apple-touch-icon" href="https://www.aexperiences.com/4barrel_OS.png">
+<meta name="theme-color" content="#1c5568">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap">
+<style>
+  :root{--card:#fffaf0;--sunk:#f4ecdc;--line:#e4d7bc;--ink:#211a14;--ink-2:#3d3128;--mut:#7a6d5e;--acc:#1c5568}
+  *{box-sizing:border-box}
+  body,.lede,.gf h3,.gf p,.gfoot,.alt a{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+  body{margin:0;font-family:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(165deg,#55616f,#39434f 60%,#272e36);-webkit-font-smoothing:antialiased}
+  .gate{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:34px max(16px,env(safe-area-inset-right,0px)) 34px max(16px,env(safe-area-inset-left,0px))}
+  .gcard{max-width:940px;width:100%;background:var(--card);border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(0,0,0,.55)}
+  .gtop{display:flex;gap:18px;align-items:center;padding:30px 34px 24px;border-bottom:1px solid var(--line)}
+  .gtop img{width:74px;height:74px;border-radius:17px;display:block;flex:none}
+  .gtop h1{margin:0;font-size:27px;letter-spacing:-.01em;color:var(--ink);font-weight:700}
+  .gtop p{margin:5px 0 0;font-size:14px;color:var(--mut)}
+  .gbody{padding:26px 34px 30px}
+  .lede{font-size:16.5px;line-height:1.65;color:var(--ink-2);margin:0 0 22px;max-width:66ch}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px}
+  .gf{min-width:0}
+  .gf h3{margin:0 0 5px;font-size:13.5px;color:var(--ink)}
+  .gf p{margin:0;font-size:12.8px;line-height:1.55;color:var(--mut)}
+  .enter{display:inline-flex;align-items:center;gap:9px;background:var(--acc);color:#fff;border:none;padding:15px 26px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer}
+  .enter:hover{filter:brightness(.92)}
+  .enter:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  .alt{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .alt a{font-size:13px;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:9px 14px;background:var(--card)}
+  .alt a:hover{border-color:var(--acc);color:var(--acc)}
+  .gfoot{padding:16px 34px;background:var(--sunk);font-size:12px;color:var(--mut);line-height:1.6}
+  .gfoot b{color:var(--ink-2)}
+  @media(max-width:760px){.gtop{padding:22px 20px 18px;gap:13px}.gtop img{width:56px;height:56px}.gtop h1{font-size:21px}.gbody{padding:20px}.grid3{grid-template-columns:1fr;gap:14px}.gfoot{padding:14px 20px}.enter{width:100%;justify-content:center}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
 <body>
-<div class="gate-wrap">
-  <main style="width:100%;max-width:740px">
-    <section class="card" style="padding:34px 36px 0;border-radius:16px;box-shadow:var(--sh-lg);margin-bottom:0">
-      <div class="row" style="gap:13px;align-items:center">
-        <div class="bmark" style="width:46px;height:46px" aria-hidden="true">
-          <img src="https://www.aexperiences.com/4barrel_OS.png" alt="4barrel OS" onerror="this.style.display='none';this.parentNode.classList.add('fallback')">
-          <svg class="fallback-mark" viewBox="0 0 32 32" width="28" height="28" style="display:none" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1.7"><rect x="6" y="6" width="20" height="20" rx="3"/><circle cx="12.5" cy="12.5" r="2.4"/><circle cx="19.5" cy="12.5" r="2.4"/><circle cx="12.5" cy="19.5" r="2.4"/><circle cx="19.5" cy="19.5" r="2.4"/></g></svg>
-        </div>
-        <div>
-          <div style="font-size:21px;font-weight:800;letter-spacing:-.024em;line-height:1.15">4barrel OS</div>
-          <div class="muted mono" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:2px">Used-Car OS · boutique &amp; independent lots</div>
-        </div>
-        <span class="spacer"></span>
-        <span class="tag mono ghost">SHOWROOM</span>
-      </div>
-      <div class="divider" style="margin:22px 0 20px"></div>
-      <h1 style="font-size:27px;letter-spacing:-.028em;line-height:1.2">The lot as one system —<br>and the only one that knows what a unit costs you per day it sits.</h1>
-      <p style="font-size:14.5px;color:var(--ink-2);line-height:1.65;margin-top:14px;max-width:64ch">
-        4barrel OS is built for the 20–60 unit independent lot where the owner is the buyer, the recon manager, the
-        salesperson, the title clerk and collections — often all before lunch. Inventory with running <b>all-in cost</b>,
-        the recon gate, the desk, leads, online sales, and the paperwork that keeps you out of trouble. Not a franchise
-        DMS priced for a store fifty times your size — the whole lot, in one place, at your size.
-      </p>
-      <div class="fence gold" style="margin-top:18px">
-        <b>Days-on-lot is a bill, not a stat.</b> Every unit carries its real basis — auction hammer, fees, transport,
-        recon, and the floor-plan interest that grows every single day it sits. The Command Center's top number is the
-        money tied up on your lot and what the carry is costing you today.
-      </div>
-      <div class="fence crim" style="margin-top:14px">
-        <b>Two gates keep you honest.</b> A unit can't hit the line until <b>recon reads Ready</b>. A deal can't be
-        <b>delivered</b> until the title is in hand, the FTC Buyers Guide is posted, and the odometer is disclosed. The
-        paperwork is the thing most likely to actually cost you money this year — so the OS treats it like a gate.
-      </div>
-      <div class="fence" style="margin-top:14px">
-        <b>This is the real OS, not a slideshow.</b> It runs entirely in your browser. Everything you type stays in this
-        tab, nothing is uploaded, and the lot resets when you leave. Nothing here lists, delivers, spends or signs —
-        anything that would is staged on the Approval Desk instead.
-      </div>
-      <div class="divider" style="margin:24px 0 20px"></div>
-      <div class="row" style="gap:14px">
-        <a class="btn gold" href="dashboard.html" id="enter" style="padding:12px 22px;font-size:14px">Walk the lot &rarr;</a>
-        <span class="muted small" style="max-width:36ch;line-height:1.5">Opens on the full Multi-lot build with every department switched on.</span>
-      </div>
-      <div class="ae-credit" style="margin:26px -36px 0;padding:16px 36px 22px"><img src="marks/aetriad-powered.png" alt="AETRIAD Powered — Accelerated Experiences LLC" width="126" height="45" style="display:block;height:45px;width:auto;margin:0 0 10px"><b>4barrel OS</b> is a white-label build by <b>Accelerated Experiences LLC</b>. Demo data is a fictional independent lot; benchmark figures are estimates and tagged.</div>
-    </section>
-  </main>
-</div>
+<div class="gate"><div class="gcard">
+  <div class="gtop">
+    <img src="https://www.aexperiences.com/4barrel_OS.png" alt="4barrel OS">
+    <div><h1>4barrel OS</h1><p>The operating system for a boutique, independent used-car lot</p></div>
+  </div>
+  <div class="gbody">
+    <p class="lede">An independent lot does not run on a calendar. It runs on units — where the owner is the buyer, the recon manager, the salesperson and the title clerk before lunch, where every day a car sits is floor-plan interest nobody books, and where a deal delivered without the title in hand is the mistake most likely to cost you money this year. 4barrel OS is built for the twenty-to-sixty-unit lot, at your size, not a franchise DMS priced for a store fifty times bigger.</p>
+    <div class="grid3">
+      <div class="gf"><h3>Days-on-lot is a bill, not a stat</h3><p>Every unit carries its real basis — hammer, fees, transport, recon — and the floor-plan interest that grows every day it sits. The top number is the money tied up on the lot and what today&#x27;s carry costs.</p></div>
+      <div class="gf"><h3>The recon gate</h3><p>A unit cannot hit the line until recon reads Ready. Units in recon are counted on the home screen.</p></div>
+      <div class="gf"><h3>The titles and compliance gate</h3><p>A deal cannot be delivered until the title is in hand, the FTC Buyers Guide is posted and the odometer is disclosed. The paperwork is treated like a gate because it is one.</p></div>
+      <div class="gf"><h3>The desk and the ups</h3><p>Leads and ups to work, deals desked, and the one sold without the title in hand.</p></div>
+      <div class="gf"><h3>Finance and products</h3><p>Back gross booked on every deal, and the store gross across the deals delivered this week.</p></div>
+      <div class="gf"><h3>Online sales</h3><p>Online deals with a deposit down, from the listing to the delivery, in the same desk.</p></div>
+    </div>
+    <a class="enter" id="enter" href="dashboard.html">Walk in and use it &rarr;</a>
+    <div class="alt">
+      <a href="deals.html">Desk a deal</a>
+      <a href="floorplan.html">What the lot costs today</a>
+      <a href="recon.html">Move a unit through recon</a>
+      <a href="titles.html">Deliver with the title in hand</a>
+      <a href="leads.html">Work an up</a>
+    </div>
+  </div>
+  <div class="gfoot">
+    This is the real system running in your browser, not a slideshow — everything you type stays on your device and
+    nothing is uploaded. It opens on a realistic sample lot; the ribbon at the top clears it so you can enter your own.
+    <b>4barrel OS is a white-label build by Accelerated Experiences LLC.</b>
+    Nothing here is legal, tax or compliance advice; the FTC Buyers Guide is yours to post.
+  </div>
+</div></div>
 <script src="fourbarrel.js"></script>
-<script>(function(){var F=window.FB;var a=document.getElementById("enter");if(a&&F)a.addEventListener("click",function(){F.resetFloor();});})();</script>
+<script>(function(){var E=window.FB;var a=document.getElementById("enter");if(a&&E&&E.resetFloor)a.addEventListener("click",function(){E.resetFloor();});})();</script>
 </body>
 </html>
